@@ -1,0 +1,95 @@
+//para interface seria: interface Guitar {}
+type Guitar =  {
+  id: number
+  name: string
+  image: string
+  description: string
+  price: number
+}
+
+export const db: Guitar[] = [
+  {
+    id: 1,
+    name: 'Nike',
+    image: 'shirt_01',
+    description: 'Camiseta deportiva de alto rendimiento, ideal para entrenamientos intensos.',
+    price: 299,
+  },
+  {
+    id: 2,
+    name: 'Adidas',
+    image: 'shirt_02',
+    description: 'Diseño clásico con materiales transpirables para mayor comodidad.',
+    price: 349,
+  },
+  {
+    id: 3,
+    name: 'Puma',
+    image: 'shirt_03',
+    description: 'Estilo urbano y moderno, perfecta para el uso diario.',
+    price: 329,
+  },
+  {
+    id: 4,
+    name: 'Reebok',
+    image: 'shirt_04',
+    description: 'Camiseta ligera con tecnología que absorbe la humedad.',
+    price: 299,
+  },
+  {
+    id: 5,
+    name: 'Under Armour',
+    image: 'shirt_05',
+    description: 'Ideal para deportistas, con ajuste ergonómico y tejido elástico.',
+    price: 399,
+  },
+  {
+    id: 6,
+    name: 'Levi’s',
+    image: 'shirt_06',
+    description: 'Camiseta casual con estilo clásico y materiales de alta calidad.',
+    price: 329,
+  },
+  {
+    id: 7,
+    name: 'Guess',
+    image: 'shirt_07',
+    description: 'Diseño moderno y atrevido, perfecta para destacar.',
+    price: 349,
+  },
+  {
+    id: 8,
+    name: 'Zara',
+    image: 'shirt_08',
+    description: 'Moda actual y minimalista para cualquier ocasión.',
+    price: 379,
+  },
+  {
+    id: 9,
+    name: 'H&M',
+    image: 'shirt_09',
+    description: 'Básica y cómoda, ideal para combinar con cualquier outfit.',
+    price: 289,
+  },
+  {
+    id: 10,
+    name: 'Bershka',
+    image: 'shirt_10',
+    description: 'Estilo juvenil con cortes modernos y colores vibrantes.',
+    price: 349,
+  },
+  {
+    id: 11,
+    name: 'Tommy Hilfiger',
+    image: 'shirt_11',
+    description: 'Diseño elegante con el icónico logo de la marca.',
+    price: 399,
+  },
+  {
+    id: 12,
+    name: 'Lacoste',
+    image: 'shirt_12',
+    description: 'Camiseta de alta gama con estilo sofisticado y tejidos premium.',
+    price: 379,
+  },
+]
