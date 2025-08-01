@@ -1,5 +1,15 @@
+import type { CartItem, Guitar } from "../types"
 
-export default function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, isCartEmpty, cartTotal }) {
+type HeaderProps = {
+  cart: CartItem[]
+  removeFromCart: (id: Guitar['id']) => void
+  increaseQuantity: (id: Guitar['id']) => void
+  decreaseQuantity: (id: Guitar['id']) => void
+  clearCart: () => void
+  isCartEmpty: boolean
+  cartTotal: number
+}
+export default function Header({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart, isCartEmpty, cartTotal }: HeaderProps) {
 
   return (
     <header className="py-5 header">
@@ -47,7 +57,7 @@ export default function Header({ cart, removeFromCart, increaseQuantity, decreas
                                 <button
                                   type="button"
                                   className="btn btn-dark"
-                                  onClick={()=> decreaseQuantity(guitar.id)}
+                                  onClick={() => decreaseQuantity(guitar.id)}
                                 >
                                   -
                                 </button>
@@ -78,8 +88,8 @@ export default function Header({ cart, removeFromCart, increaseQuantity, decreas
                     </>
                   )
                 }
-                <button className="btn btn-dark w-100 mt-3 p-2" 
-                        onClick={clearCart}
+                <button className="btn btn-dark w-100 mt-3 p-2"
+                  onClick={clearCart}
                 >Vaciar Carrito</button>
               </div>
             </div>
