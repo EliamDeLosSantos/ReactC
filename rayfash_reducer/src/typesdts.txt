@@ -1,0 +1,9 @@
+//para interface seria: interface Guitar {}
+//Esto es una forma de hacerlo pero no es recomendada por los de TS
+// type Guitar =  {
+//   id: number
+//   name: string
+//   image: string
+//   description: string
+//   price: number
+// }
