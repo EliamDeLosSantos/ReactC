@@ -37,19 +37,19 @@ export const cartReducer = (
     if (actions.type === 'add-cart') {
         let upsertedItems: CartItem[] = []
         const itemExists = state.cartItems.find(guitar => guitar.id === actions.payload.item.id)
-        if (itemExists) {
-            upsertedItems = state.cartItems.map(item => {
-                if (item.id !== actions.payload.item.id) return item
+            if (itemExists) {
+                upsertedItems = state.cartItems.map(item => {
+                    if (item.id !== actions.payload.item.id) return item
 
-                if (item.quantity < MAX_ITEMS) {
-                    return { ...item, quantity: item.quantity + 1 }
-                } else return item
-            })
-        }
-        else {
-            const newItem: CartItem = { ...actions.payload.item, quantity: 1 }
-            upsertedItems = [...state.cartItems, newItem]
-        }
+                    if (item.quantity < MAX_ITEMS) {
+                        return { ...item, quantity: item.quantity + 1 }
+                    } else return item
+                })
+            }
+            else {
+                const newItem: CartItem = { ...actions.payload.item, quantity: 1 }
+                upsertedItems = [...state.cartItems, newItem]
+            }
         return {
             ...state,
             cartItems: upsertedItems,
