@@ -22,4 +22,24 @@ model Product {
   image String
   categoryId Int
   category Category @relation(fields: [categoryId], references:[id])
+  OrderProducts OrderProducts[]
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  name String
+  total Float
+  date DateTime @default(now())
+  status Boolean @default(false)
+  orderReadyAt DateTime?
+  OrderProducts OrderProducts[]
+}
+
+model OrderProducts {
+  id Int @id @default(autoincrement())
+  OrderId Int 
+  Order Order @relation(fields: [OrderId], references: [id])
+  ProductId Int
+  Product Product @relation(fields: [ProductId], references: [id])
+  Quantity Int
 }
