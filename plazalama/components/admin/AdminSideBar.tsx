@@ -1,7 +1,9 @@
+import AdminRoute from "./AdminRoute"
+
 const adminNavigation = [
-    {url: '/admin/orders', text: 'Ordenes', blank: false},
-    {url: '/admin/product', text: 'Productos', blank: false},
-    {url: '/admin/cafe', text: 'Ver Tienda', blank: true},
+    {url: '/admin/order', text: 'Ordenes', blank: false},
+    {url: '/admin/products', text: 'Productos', blank: false},
+    {url: '/order/cafe', text: 'Ver Tienda', blank: true},
 ]
 export default function AdminSideBar () {
   return (
@@ -11,7 +13,11 @@ export default function AdminSideBar () {
             Navegacion
         </p>
         <nav className="flex flex-col">
-
+          {
+            adminNavigation.map(link => (
+              <AdminRoute key={link.text} link={link}/>
+            ))
+          }
         </nav>
       </div>
     </>

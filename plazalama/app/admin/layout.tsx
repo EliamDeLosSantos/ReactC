@@ -8,7 +8,7 @@ export default function RootLayout({ children }:
     return (
         <>
             <div className="md:flex">
-                <aside className="md:w-72 md:h-screen bg-white">
+                <aside className="md:w-80 md:h-screen bg-white">
                     <Logo/>
                     <AdminSideBar />
                 </aside>
