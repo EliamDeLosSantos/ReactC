@@ -8,31 +8,55 @@ import { deleteUsers, fetchUsers, insertUsers, updateUsers } from "../helper/fet
 export const UseUsersData = () => {
     const [users, setUsers] = useState<UserResponse[] | []>([])
     const [updatingUserId, setUpdatingUserId] = useState<number | null>(null)
+    const [loading, setLoading] = useState(false)
+    const [notification, setNotification] = useState<string | null>(null)
+    const [apiError, setApiError] = useState<string | null>(null)
     const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<UserResponseFormData>()
 
     useEffect(() =>{
         const getUsers = async () =>{
-            const users = await fetchUsers();
-            setUsers(mapUsersResponse(users))
+            setLoading(true)
+            setApiError(null)
+            try {
+                const users = await fetchUsers();
+                setUsers(mapUsersResponse(users))
+            } catch (e) {
+                setApiError('Error al cargar usuarios')
+            } finally {
+                setLoading(false)
+            }
         }
         getUsers()
     },[])
 
     const registerUser = async (data: UserResponseFormData) => {
-        const postUsersResponse = await insertUsers(data);
-        console.log(postUsersResponse);
-        // const newUser: UserResponse = {
-        //     id: users.length + 1, // Aberracion de la naturaleza T_T
-        //     ...data
-        // }
-        // setUsers([...users, newUser])
+        setLoading(true)
+        setApiError(null)
+        try {
+            const postUsersResponse = await insertUsers(data);
+            console.log(postUsersResponse);
+            setNotification('Usuario creado correctamente')
+        } catch (e) {
+            setApiError('Error al crear usuario')
+        } finally {
+            setLoading(false)
+            setTimeout(() => setNotification(null), 2000)
+        }
     }
 
     async function handleDelete(id: number) {
-        const deleteUsersResponse = await deleteUsers(id)
-        console.log(deleteUsersResponse);
-        // const filteredUsers = users.filter(user => user.id != id)
-        // setUsers(filteredUsers)
+        setLoading(true)
+        setApiError(null)
+        try {
+            const deleteUsersResponse = await deleteUsers(id)
+            console.log(deleteUsersResponse);
+            setNotification('Usuario eliminado')
+        } catch (e) {
+            setApiError('Error al eliminar usuario')
+        } finally {
+            setLoading(false)
+            setTimeout(() => setNotification(null), 2000)
+        }
     }
 
     const handleFormSubmit = (data: UserResponseFormData) => {
@@ -46,9 +70,18 @@ export const UseUsersData = () => {
 
     async function handleUpdate(data: UserResponseFormData) {
         if(!updatingUserId) return;
-        const updateUsersResponse = await updateUsers(updatingUserId, data);
-        console.log(updateUsersResponse);
-        // setUsers(users.map(user => user.id == updatingUserId ? { id: updatingUserId, ...data } : user))
+        setLoading(true)
+        setApiError(null)
+        try {
+            const updateUsersResponse = await updateUsers(updatingUserId, data);
+            console.log(updateUsersResponse);
+            setNotification('Usuario actualizado')
+        } catch (e) {
+            setApiError('Error al actualizar usuario')
+        } finally {
+            setLoading(false)
+            setTimeout(() => setNotification(null), 2000)
+        }
     }
 
     const handleUpdatingIndex = (id: number) => {
@@ -71,6 +104,9 @@ export const UseUsersData = () => {
         handleSubmit,
         handleDelete,
         handleFormSubmit,
-        handleUpdatingIndex
+        handleUpdatingIndex,
+        loading,
+        notification,
+        apiError
     }
 }

@@ -1,98 +1,43 @@
 import type { UserResponseFormData } from "../types"
 import type { FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form"
+import InputField from "./InputField"
+import Button from "./Button"
+
 type UsersFormProps = {
     handleSubmit: UseFormHandleSubmit<UserResponseFormData, UserResponseFormData>,
     handleFormSubmit:(data: UserResponseFormData) => void,
     register: UseFormRegister<UserResponseFormData>,
-    errors: FieldErrors<UserResponseFormData>
+    errors: FieldErrors<UserResponseFormData>,
+    loading?: boolean,
+    notification?: string | null
 }
 
 export default function UsersForm({
 handleSubmit,
 handleFormSubmit,
 register,
-errors
+errors,
+loading = false,
+notification = null
 }:UsersFormProps) {
   return (
-          <div>
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-5" action="POST">
-          <div>
-            <label>Nombre</label>
-            <input
-              id="name"
-              placeholder="Nombre"
-              {...register('name', {
-                required: 'El nombre es requerido'
-              })}/>
-              {errors.name && (
-                <p className="text-red-400">{errors.name.message}</p>
-              )}
-          </div>
-          <div>
-            <label>Usuario</label>
-            <input placeholder="Usuario"
-            {...register('username', {
-                required: 'El nombre de usuario es requerido'
-              })}/>
-              {errors.username && (
-                <p className="text-red-400">{errors.username.message}</p>
-              )}
-          </div>
-          <div>
-            <label>Email</label>
-            <input placeholder="Email"
-            {...register('email', {
-                required: 'El email es requerido'
-              })}/>
-              {errors.email && (
-                <p className="text-red-400">{errors.email.message}</p>
-              )}
-          </div>
-          <div>
-            <label>Direccion</label>
-            <input placeholder="Direccion"
-            {...register('addressName', {
-                required: 'El nombre es requerido'
-              })}/>
-              {errors.addressName && (
-                <p className="text-red-400">{errors.addressName.message}</p>
-              )}
-          </div>
-          <div>
-            <label>Telefono</label>
-            <input placeholder="809-785-2385"
-            {...register('phone', {
-                required: 'El telefono es requerido'
-              })}/>
-              {errors.phone && (
-                <p className="text-red-400">{errors.phone.message}</p>
-              )}
-          </div>
-          <div>
-            <label>Sitio web</label>
-            <input placeholder="unsitio.com"
-            {...register('website', {
-                required: 'El website es requerido'
-              })}/>
-              {errors.website && (
-                <p className="text-red-400">{errors.website.message}</p>
-              )}
-          </div>
-          <div>
-            <label>Compañia</label>
-            <input placeholder="Nombre la compañia"
-            {...register('companyName', {
-                required: 'El nombre de la empresa es requerido'
-              })}/>
-              {errors.companyName && (
-                <p className="text-red-400">{errors.companyName.message}</p>
-              )}
-          </div>
-          <div>
-            <input type="submit" value={'Enviar'}/>
-          </div>
-        </form>
-      </div>
+    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow mt-6">
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4" noValidate>
+        <InputField id="name" label="Nombre" placeholder="Nombre" error={errors.name?.message} {...register('name', { required: 'El nombre es requerido', minLength: { value: 2, message: 'Mínimo 2 caracteres' } })} />
+        <InputField id="username" label="Usuario" placeholder="Usuario" error={errors.username?.message} {...register('username', { required: 'El nombre de usuario es requerido', minLength: { value: 2, message: 'Mínimo 2 caracteres' } })} />
+        <InputField id="email" label="Email" placeholder="Email" type="email" error={errors.email?.message} {...register('email', { required: 'El email es requerido', pattern: { value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/, message: 'El email no es válido' } })} />
+        <InputField id="addressName" label="Dirección" placeholder="Dirección" error={errors.addressName?.message} {...register('addressName', { required: 'La dirección es requerida' })} />
+        <InputField id="phone" label="Teléfono" placeholder="809-785-2385" error={errors.phone?.message} {...register('phone', { required: 'El teléfono es requerido' })} />
+        <InputField id="website" label="Sitio web" placeholder="unsitio.com" error={errors.website?.message} {...register('website', { required: 'El website es requerido' })} />
+        <InputField id="companyName" label="Compañía" placeholder="Nombre de la compañía" error={errors.companyName?.message} {...register('companyName', { required: 'El nombre de la empresa es requerido' })} />
+
+        {notification && <div className="text-green-600 text-sm">{notification}</div>}
+
+        <div>
+          <Button type="submit" loading={loading} className="w-full">{loading ? 'Guardando...' : 'Guardar Usuario'}</Button>
+        </div>
+      </form>
+    </div>
   )
 };
 
