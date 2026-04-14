@@ -14,13 +14,16 @@ type BudgetProviderProps = {
 export const BudgetContext = createContext<BudgetContextProps>(null!)
 
 export const BudgetProvider = ({children}: BudgetProviderProps) => {
+    
     const [state, dispatch] = useReducer(budgetReducer, initialState)
+
     return (
-        <BudgetContext.Provider value={{
-            //Aqui va lo que se puede consumir desde los children de quien usa el Context
-            state,
-            dispatch
-        }}>
+        <BudgetContext.Provider 
+            value={{
+                state,
+                dispatch
+            }}    
+        >
             {children}
         </BudgetContext.Provider>
     )
