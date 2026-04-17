@@ -2,7 +2,7 @@ import { categories } from "../data/categories";
 import DatePicker from "react-date-picker";
 import 'react-date-picker/dist/DatePicker.css'
 import 'react-calendar/dist/Calendar.css'
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import type { ExpenseDraft, Value } from "../types";
 import { useBudget } from "../hooks/useBudget";
 import ErrorMessage from "./ErrorMessage";
@@ -16,8 +16,17 @@ export default function ExpenseForm() {
         date: new Date()
     }
     const [expense, setExpense] = useState<ExpenseDraft>(initialExpense)
+    const [previousAmount, setPreviousAmount] = useState(0)
     const [error, setError] = useState('')
-    const { dispatch } = useBudget()
+    const { dispatch, state, remainingBudget } = useBudget()
+
+    useEffect(() => {
+        if(state.editingId){
+            const editingExpense = state.expenses.filter(exp => exp.id === state.editingId)[0]
+            setExpense(editingExpense)
+            setPreviousAmount(editingExpense.amount)
+        }
+    },[state.editingId])
 
     const handleChangeDate = (date: Value) => {
         setExpense({
@@ -37,13 +46,23 @@ export default function ExpenseForm() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        // const payload = {}
+        //Validar
         if (Object.values(expense).includes('')) {
             setError('Todos los campos son obligatorios')
             return
         }
-        dispatch({type: 'add-expense', payload:{expense}})
+        //Validar que no me pase del limite
+        if ((expense.amount - previousAmount) > remainingBudget) {
+            setError('Tu no tiene cualto pa eso')
+            return
+        }
+        if(state.editingId){
+            dispatch({type: 'update-expense', payload:{expense:{id: state.editingId, ...expense}}})
+        }else {
+            dispatch({type: 'add-expense', payload:{expense}})
+        }
         setExpense(initialExpense)
+        setPreviousAmount(0)
     }
 
 
@@ -52,7 +71,7 @@ export default function ExpenseForm() {
         <form className="space-y-5" onSubmit={handleSubmit}>
             <legend
                 className="uppercase text-center text-2xl font-black border-b-4 border-blue-600 py-2">
-                Nuevo Gasto
+                {state.editingId ? 'Guardar Cambios': 'Nuevo Gasto'}
             </legend>
 
             {error && (
@@ -83,6 +102,7 @@ export default function ExpenseForm() {
                 <input type="number"
                     id="amount"
                     name="amount"
+                    min={1}
                     placeholder="Agrega la cantidad del gasto. Ej: 300"
                     className="bg-slate-100 p-2"
                     value={expense.amount}
@@ -127,7 +147,8 @@ export default function ExpenseForm() {
             <input
                 type="submit"
                 className="bg-blue-600 w-full p-2 text-white uppercase font-bold rounded-lg"
-                value={'Registrar Gasto'}
+                value=
+                {state.editingId ? 'Guardar Cambios': 'Registrar Gasto'}
             />
         </form>
     )
