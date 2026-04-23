@@ -4,10 +4,8 @@ import ExpenseDetails from "./ExpenseDetails"
 
 export default function ExpenseList() {
     const {state} = useBudget()
-    const filteredExpenses = useMemo(() => {
-        return state.currentCategory ? 
+    const filteredExpenses = state.currentCategory ? 
         state.expenses.filter(expense => expense.category === state.currentCategory):state.expenses
-    },[state.currentCategory])
     const isEmpty = useMemo(() => filteredExpenses.length === 0, [filteredExpenses])
         
     return (
