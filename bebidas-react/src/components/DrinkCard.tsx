@@ -12,7 +12,7 @@ export default function DrinkCard({ drink }: DrinkCardProps) {
         <img
           src={drink.strDrinkThumb}
           alt={`imagen de ${drink.strDrink}`}
-          className="hover:scale-105 transition-transform hover:rotate-2"
+          className="hover:scale-105 transition-transform hover:rotate-2 mx-auto"
         />
       </div>
       <div className="p-5">
