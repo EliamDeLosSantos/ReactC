@@ -24,7 +24,6 @@ export async function fetchRecipesByDrinkId(id: DrinkAPIResponse['idDrink']) {
     const drinkByIdUrl = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`
     const { data } = await axios.get(drinkByIdUrl)
     const result = RecipeAPIResponseSchema.safeParse(data.drinks[0])
-    console.log(result)
     if (result.success) {
         return result.data
     }
